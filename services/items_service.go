@@ -7,7 +7,14 @@ import (
 	"net/http"
 )
 
-func GetItem(itemId int64) (*domain.Item, *utils.ApplicationError) {
+type itemService struct { // создаем новый тип, чтобы через него вызывать методы в пакете
+}
+
+var (
+	ItemService itemService // Декларация переменной, который будет использовать вне пакета
+)
+
+func (is *itemService) GetItem(itemId int64) (*domain.Item, *utils.ApplicationError) {
 	return nil, &utils.ApplicationError{
 		Message:    "implement_me",
 		StatusCode: http.StatusInternalServerError,

@@ -6,7 +6,14 @@ import (
 	"github.com/PTLam25/microserver-course-1/utils"
 )
 
-func GetUser(userId int64) (*domain.User, *utils.ApplicationError) {
+type userService struct { // создаем новый тип, чтобы через него вызывать методы в пакете
+}
+
+var (
+	UserService userService // Декларация переменной, который будет использовать вне пакета
+)
+
+func (u *userService) GetUser(userId int64) (*domain.User, *utils.ApplicationError) {
 	// тут может быть вызовы к другим сервисам
-	return domain.GetUser(userId)
+	return domain.UserDao.GetUser(userId)
 }

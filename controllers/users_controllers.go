@@ -31,7 +31,7 @@ func GetUser(resp http.ResponseWriter, req *http.Request) {
 	}
 
 	// 2) отправляем данные на обработку сервису
-	user, apiErr := services.GetUser(userId)
+	user, apiErr := services.UserService.GetUser(userId)
 
 	if apiErr != nil {
 		jsonErrorValue, _ := json.Marshal(apiErr)
