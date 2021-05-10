@@ -2,19 +2,20 @@ package controllers
 
 // Контроллеры - это входная точка для любого запроса в нашем приложения.
 // Они отвечают за валидации входящих данных и передача их сервисам на обработку. А потом возвращают ответ клиенту.
-// В контроллерах НЕ должна содеражаться бизнес логика. Бизнес логика содержатся в сервисах.
+// В контроллерах НЕ должна содержаться бизнес логика. Бизнес логика содержатся в сервисах.
 import (
 	"encoding/json"
 	"fmt"
 	"github.com/PTLam25/microserver-course-1/services"
 	"github.com/PTLam25/microserver-course-1/utils"
+	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
 )
 
-func GetUser(resp http.ResponseWriter, req *http.Request) {
+func GetUser(c *gin.Context) {
 	// 1) валидируем данные
-	userIdParam := req.URL.Query().Get("user_id")
+	userIdParam := c.Param("user_id")
 	userId, err := strconv.ParseInt(userIdParam, 10, 64)
 	if err != nil {
 		apiErr := &utils.ApplicationError{
@@ -22,11 +23,9 @@ func GetUser(resp http.ResponseWriter, req *http.Request) {
 			StatusCode: http.StatusNotFound,
 			Code:       "bad_request",
 		}
-		jsonErrorValue, _ := json.Marshal(apiErr)
-		// добавить 404 станус в заголовок ответа
-		resp.WriteHeader(apiErr.StatusCode)
-		// отправить текст ошибки
-		resp.Write(jsonErrorValue)
+
+		// добавить 400 статус в заголовок ответа и отправить текст ошибк
+		c.JSON(http.StatusBadRequest, apiErr)
 		return
 	}
 
@@ -34,11 +33,8 @@ func GetUser(resp http.ResponseWriter, req *http.Request) {
 	user, apiErr := services.UserService.GetUser(userId)
 
 	if apiErr != nil {
-		jsonErrorValue, _ := json.Marshal(apiErr)
-		// добавить 404 станус в заголовок ответа
-		resp.WriteHeader(apiErr.StatusCode)
-		// отправить текст ошибки
-		resp.Write(jsonErrorValue)
+		// добавить 404 статус в заголовок ответа и отправить текст ошибк
+		c.JSON(http.StatusBadRequest, apiErr)
 		return
 	}
 
@@ -46,5 +42,5 @@ func GetUser(resp http.ResponseWriter, req *http.Request) {
 	jsonValue, _ := json.Marshal(user)
 
 	// 4) вернуть ответ клиенту
-	resp.Write(jsonValue)
+	c.JSON(http.StatusOK, jsonValue)
 }
