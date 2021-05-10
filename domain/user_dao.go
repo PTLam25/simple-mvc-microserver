@@ -11,7 +11,7 @@ import (
 var (
 	// типо БД, в котором есть пользователи
 	users = map[int64]*User{
-		123: {Id: 123, FirstName: "Lam", LastName: "Pham", email: "test@gmail.com"},
+		123: {Id: 123, FirstName: "Lam", LastName: "Pham", Email: "test@gmail.com"},
 	}
 )
 
