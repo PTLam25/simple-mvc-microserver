@@ -8,15 +8,22 @@ import (
 	"net/http"
 )
 
-type userDao struct {
+func init() {
+	UserDao = &userDao{}
 }
+
+type userServiceInterface interface {
+	GetUser(int64) (*User, *utils.ApplicationError)
+}
+type userDao struct{}
 
 var (
 	// типо БД, в котором есть пользователи
 	users = map[int64]*User{
 		123: {Id: 123, FirstName: "Lam", LastName: "Pham", Email: "test@gmail.com"},
 	}
-	UserDao userDao
+
+	UserDao userServiceInterface
 )
 
 func (ud *userDao) GetUser(userId int64) (*User, *utils.ApplicationError) {
