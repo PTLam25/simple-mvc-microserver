@@ -1,6 +1,10 @@
 package domain
 
-import "errors"
+import (
+	"fmt"
+	"github.com/PTLam25/microserver-course-1/utils"
+	"net/http"
+)
 
 // DOA отвечает за связь модели С БД для CRUD.
 
@@ -11,12 +15,16 @@ var (
 	}
 )
 
-func GetUser(userId int64) (*User, error) {
+func GetUser(userId int64) (*User, *utils.ApplicationError) {
 	//  получить данные с БД
 	if user := users[userId]; user != nil {
 		return user, nil
 
 	}
 
-	return nil, errors.New("NO SUCH USER")
+	return nil, &utils.ApplicationError{
+		Message:    fmt.Sprintf("user %v was not found", userId),
+		StatusCode: http.StatusNotFound,
+		Code:       "not_found",
+	}
 }
