@@ -3,8 +3,8 @@ package domain
 // модель пользователя в нашем приложения
 
 type User struct {
-	Id        uint64
-	FirstName string
-	LastName  string
-	email     string
+	Id        uint64 `json:"id"`
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	email     string `json:"email"`
 }
