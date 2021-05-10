@@ -1,2 +1,3 @@
-# microserver-course-1
-GOLANG microserver course 1 code
+# Source code of GOLANG micro server course
+
+[LINK TO THE COURSE](https://www.udemy.com/course/golang-the-ultimate-guide-to-microservices-in-go-part-1)
