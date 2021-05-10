@@ -4,7 +4,6 @@ package controllers
 // Они отвечают за валидации входящих данных и передача их сервисам на обработку. А потом возвращают ответ клиенту.
 // В контроллерах НЕ должна содержаться бизнес логика. Бизнес логика содержатся в сервисах.
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/PTLam25/microserver-course-1/services"
 	"github.com/PTLam25/microserver-course-1/utils"
@@ -25,7 +24,7 @@ func GetUser(c *gin.Context) {
 		}
 
 		// добавить 400 статус в заголовок ответа и отправить текст ошибк
-		c.JSON(http.StatusBadRequest, apiErr)
+		utils.RespondError(c, apiErr)
 		return
 	}
 
@@ -33,14 +32,11 @@ func GetUser(c *gin.Context) {
 	user, apiErr := services.UserService.GetUser(userId)
 
 	if apiErr != nil {
-		// добавить 404 статус в заголовок ответа и отправить текст ошибк
-		c.JSON(http.StatusBadRequest, apiErr)
+		// добавить 404 статус в заголовок ответа и отправить текст ошибки
+		utils.RespondError(c, apiErr)
 		return
 	}
 
-	// 3) декодировать данные в JSON
-	jsonValue, _ := json.Marshal(user)
-
 	// 4) вернуть ответ клиенту
-	c.JSON(http.StatusOK, jsonValue)
+	utils.Respond(c, http.StatusBadRequest, user)
 }
