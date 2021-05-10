@@ -4,6 +4,7 @@ package domain
 import (
 	"fmt"
 	"github.com/PTLam25/microserver-course-1/utils"
+	"log"
 	"net/http"
 )
 
@@ -19,6 +20,7 @@ var (
 )
 
 func (ud *userDao) GetUser(userId int64) (*User, *utils.ApplicationError) {
+	log.Println("We are accessing DB")
 	//  получить данные с БД
 	if user := users[userId]; user != nil {
 		return user, nil

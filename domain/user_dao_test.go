@@ -8,7 +8,7 @@ import (
 
 func TestGetUserNotFound(t *testing.T) {
 	// 1) вызов функции для теста
-	user, err := GetUser(0)
+	user, err := UserDao.GetUser(0)
 
 	// 2) валидация результата функции
 	assert.Nil(t, user, "not expecting a user with id 0")
@@ -20,7 +20,7 @@ func TestGetUserNotFound(t *testing.T) {
 
 func TestGetUserFound(t *testing.T) {
 	// 1) вызов функции для теста
-	user, err := GetUser(123)
+	user, err := UserDao.GetUser(123)
 
 	// 2) валидация результата функции
 	assert.NotNilf(t, user, "expecting a user with id 0")
