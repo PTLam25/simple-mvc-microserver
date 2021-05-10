@@ -1,21 +1,33 @@
 package domain
 
+// DOA отвечает за связь модели С БД для CRUD.
 import (
 	"fmt"
 	"github.com/PTLam25/microserver-course-1/utils"
+	"log"
 	"net/http"
 )
 
-// DOA отвечает за связь модели С БД для CRUD.
+func init() {
+	UserDao = &userDao{}
+}
+
+type userServiceInterface interface {
+	GetUser(int64) (*User, *utils.ApplicationError)
+}
+type userDao struct{}
 
 var (
 	// типо БД, в котором есть пользователи
 	users = map[int64]*User{
 		123: {Id: 123, FirstName: "Lam", LastName: "Pham", Email: "test@gmail.com"},
 	}
+
+	UserDao userServiceInterface
 )
 
-func GetUser(userId int64) (*User, *utils.ApplicationError) {
+func (ud *userDao) GetUser(userId int64) (*User, *utils.ApplicationError) {
+	log.Println("We are accessing DB")
 	//  получить данные с БД
 	if user := users[userId]; user != nil {
 		return user, nil
